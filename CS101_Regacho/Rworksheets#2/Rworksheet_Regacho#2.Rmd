@@ -109,6 +109,7 @@ print(forbes)
 forbes$ranking[forbes$celeb=="J.K Rowling"] <- 15
 forbes$pay[forbes$celeb=="J.K Rowling"] <- 90
 
+
 # Show updated data
 print(forbes[forbes$celeb=="J.K Rowling" , ])
 ```
