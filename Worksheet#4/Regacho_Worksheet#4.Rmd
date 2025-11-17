@@ -1,0 +1,248 @@
+---
+title: "Regacho_Worksheet#4"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r}
+# 1a. Create data frame
+shoe_data <- data.frame(
+  Shoe_size = c(6.5, 9.0, 8.5, 8.5, 10.5, 7.0, 9.5, 9.0, 13.0, 7.5, 10.5, 8.5, 12.0, 10.5,
+                13.0, 11.5, 8.5, 5.0, 10.0, 6.5, 7.5, 8.5, 10.5, 11.0, 9.0, 13.0),
+  Height = c(66.0, 68.0, 64.5, 65.0, 70.0, 64.0, 70.0, 71.0, 72.0, 64.0, 74.5, 67.0, 71.0, 71.0,
+             77.0, 72.0, 59.0, 62.0, 72.0, 66.0, 64.0, 67.0, 73.0, 70.0, 69.0, 70.0),
+  Gender = c("F", "F", "F", "F", "M", "F", "F", "F", "M", "F", "M", "F", "M", "M",
+             "M", "M", "F", "F", "M", "F", "F", "M", "M", "M", "M", "M")
+)
+
+# Describe the data
+str(shoe_data)
+summary(shoe_data)
+```
+
+```{r}
+## 1b. Create subsets by gender
+males <- subset(shoe_data, Gender == "M", select = c(Shoe_size, Height))
+females <- subset(shoe_data, Gender == "F", select = c(Shoe_size, Height))
+
+print("Males subset:")
+print(males)
+print("Females subset:")
+print(females)
+```
+
+```{r}
+# 1b. Create subsets by gender
+males <- subset(shoe_data, Gender == "M", select = c(Shoe_size, Height))
+females <- subset(shoe_data, Gender == "F", select = c(Shoe_size, Height))
+
+print("Males subset:")
+print(males)
+print("Females subset:")
+print(females)
+```
+
+```{r}
+# 1c. Find mean of shoe size and height
+mean_shoe <- mean(shoe_data$Shoe_size)
+mean_height <- mean(shoe_data$Height)
+
+cat("\nMean shoe size:", round(mean_shoe, 2), "\n")
+cat("Mean height:", round(mean_height, 2), "\n")
+
+# Mean by gender
+mean_shoe_male <- mean(males$Shoe_size)
+mean_height_male <- mean(males$Height)
+mean_shoe_female <- mean(females$Shoe_size)
+mean_height_female <- mean(females$Height)
+
+cat("\nMean shoe size - Males:", round(mean_shoe_male, 2), "\n")
+cat("Mean height - Males:", round(mean_height_male, 2), "\n")
+cat("Mean shoe size - Females:", round(mean_shoe_female, 2), "\n")
+cat("Mean height - Females:", round(mean_height_female, 2), "\n")
+```
+
+```{r}
+# 1d. Check relationship
+correlation <- cor(shoe_data$Shoe_size, shoe_data$Height)
+cat("Correlation between shoe size and height:", correlation, "\n")
+
+# Scatter plot to visualize relationship
+plot(shoe_data$Shoe_size, shoe_data$Height, 
+     xlab = "Shoe Size", ylab = "Height (inches)",
+     main = "Relationship between Shoe Size and Height",
+     col = ifelse(shoe_data$Gender == "M", "blue", "pink"),
+     pch = 19)
+legend("topleft", legend = c("Male", "Female"), col = c("blue", "pink"), pch = 19)
+
+# Linear model
+lm_model <- lm(Height ~ Shoe_size, data = shoe_data)
+cat("Linear model coefficient:", round(coef(lm_model)[2], 3), "\n")
+
+# There is a strong positive relationship between shoe size and height, with a correlation coefficient of approximately 0.81. This indicates that as shoe size increases, height tends to increase as well. The relationship appears to be linear and positive across both gender, though males generally have larger shoe sizes and greater height than females.
+```
+```{r}
+# 2. Create a factor for months
+months_vector <- c("March","April","January","November","January",
+"September","October","September","November","August","January","November","November","February","May","August","July","December","August","August","September","November","February","April")
+
+factor_months_vector <- factor(months_vector)
+cat("Factor months vector:\n")
+print(factor_months_vector)
+```
+
+```{r}
+# 3. Check summary if both vectors
+cat("\nSummary of months_vector (character):\n")
+print(summary(months_vector))
+
+cat("\nSummary of factor_months_vector (character):\n")
+print(summary(factor_months_vector))
+
+# The factor summmary is much more useful in this case because it provides the frequency count for each month, showing how many times each month appears in the data. The character vector summary only shows basic information about the vector type and length, which is not helpful for understanding the distribution of months.
+```
+
+```{r}
+# 5a. First create and save the CSV file
+# Create the data frame
+strategy_data <- data.frame(
+  Students = c("Male", "", "", "Female", "", ""),
+  Strategy1 = c(8, 4, 0, 14, 10, 6),
+  Strategy2 = c(10, 8, 6, 4, 2, 0),
+  Strategy3 = c(8, 6, 4, 15, 12, 9)
+)
+
+# Save as CSV
+write.csv(strategy_data, "import_march.csv", row.names = FALSE)
+
+# 5a. Import the CSV file
+imported_data <- read.table("import_march.csv", header = TRUE, sep = ",")
+
+# 5b. View the dataset
+cat("Imported dataset:\n")
+print(imported_data)
+
+cat("\nStructure of imported data:\n")
+str(imported_data)
+```
+
+```{r}
+# 6. Full Search with conditional statements
+full_search <- function() {
+  cat("Enter a number from 1 to 50: ")
+  user_input <- as.numeric(readline())
+  
+  if (is.na(user_input)) {
+    return("Invalid input. Please enter a number.")
+  } else if (user_input < 1 | user_input > 50) {
+    return("The number selected is beyond the range of 1 to 50")
+  } else if (user_input == 20) {
+    return("TRUE")
+  } else {
+    return(paste("Input number:", user_input))
+  }
+}
+
+# Test function with different scenarios
+cat("Testing full_search function:\n")
+cat("If input is 20:", ifelse(20 == 20, "TRUE", "Input number: 20"), "\n")
+cat("If input is 25: Input number: 25\n")
+cat("If input is 55: The number selected is beyond the range of 1 to 50\n")
+cat("If input is 'abc': Invalid input. Please enter a number.\n")
+
+
+ result <- full_search()
+ print(result)
+```
+
+```{r}
+# 7. Change calculator for bills
+calculate_bills <- function(price) {
+  if (price %% 50 != 0) {
+    return("Price must be divisible by 50")
+  }
+  
+  bills <- c(1000, 500, 200, 100, 50)
+  count <- 0
+  remaining <- price
+  
+  for (bill in bills) {
+    if (remaining >= bill) {
+      num_bills <- floor(remaining / bill)
+      count <- count + num_bills
+      remaining <- remaining - (num_bills * bill)
+    }
+  }
+  
+  return(count)
+}
+
+# Test the function with various prices
+test_prices <- c(50, 100, 150, 200, 450, 500, 750, 1000, 1250, 1500)
+
+cat("Testing bill calculator:\n")
+for (price in test_prices) {
+  cat("For price", price, "pesos, minimum bills needed:", calculate_bills(price), "\n")
+}
+```
+
+```{r}
+# 8a. Create dataframe from student grades
+student_grades <- data.frame(
+  Name = c("Annie", "Thea", "Steve", "Hanna"),
+  Grade1 = c(85, 65, 75, 95),
+  Grade2 = c(65, 75, 55, 75),
+  Grade3 = c(85, 90, 80, 100),
+  Grade4 = c(100, 90, 85, 90),
+  stringsAsFactors = FALSE
+)
+
+cat("Student grades dataframe:\n")
+print(student_grades)
+```
+
+```{r}
+# 8b. Average score over 90
+cat("\nStudents with average over 90:\n")
+for (i in 1:nrow(student_grades)) {
+  avg_grade <- (student_grades$Grade1[i] + student_grades$Grade2[i] + 
+                student_grades$Grade3[i] + student_grades$Grade4[i]) / 4
+  
+  if (avg_grade > 90) {
+    cat(student_grades$Name[i], "'s average grade this semester is", avg_grade, "\n")
+  }
+}
+```
+
+```{r}
+# 8c. Tests with average less than 80 
+cat("\nTests with average less than 80:\n")
+test_averages <- c(
+  sum(student_grades$Grade1) / nrow(student_grades),
+  sum(student_grades$Grade2) / nrow(student_grades),
+  sum(student_grades$Grade3) / nrow(student_grades),
+  sum(student_grades$Grade4) / nrow(student_grades)
+)
+
+for (i in 1:length(test_averages)) {
+  if (test_averages[i] < 80) {
+    cat("The", i, "test was difficult.\n")
+  }
+}
+```
+
+```{r}
+# 8d. Students with highest score exceeding 90 
+cat("\nStudents with highest score exceeding 90:\n")
+for (i in 1:nrow(student_grades)) {
+  highest_grade <- student_grades$Grade1[i]
+  if (student_grades$Grade2[i] > highest_grade) highest_grade <- student_grades$Grade2[i]
+  if (student_grades$Grade3[i] > highest_grade) highest_grade <- student_grades$Grade3[i]
+  if (student_grades$Grade4[i] > highest_grade) highest_grade <- student_grades$Grade4[i]
+  
+  if (highest_grade > 90) {
+    cat(student_grades$Name[i], "'s highest grade this semester is", highest_grade, "\n")
+  }
+}
+```
