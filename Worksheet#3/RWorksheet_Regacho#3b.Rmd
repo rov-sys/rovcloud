@@ -152,3 +152,43 @@ print(high_siblings)
 cat("\nFinal data frame after all conversions:\n")
 print(imported_data)
 ```
+#4. Interpret graph
+
+#Based on the sentiment analysis graph showing tweets from July to September 2020, here's my interpretation:
+
+#Overall Pattern
+
+#The graph displays a stacked bar chart showing the distribution of tweet sentiments (Negative, Neutral, Positive) across different dates in July and September 2020.
+
+#Key Observations
+
+#Sentiment Distribution
+
+#· Negative sentiment (appears to be the darkest shade) shows significant presence across most dates
+#· Neutral sentiment (middle shade) maintains a relatively consistent baseline
+#· Positive sentiment (lightest shade) varies considerably across different dates
+
+#Notable Trends
+
+#1. July 17, 2020 - Shows one of the highest total tweet volumes with:
+  # · Substantial negative sentiment
+  # · Moderate neutral sentiment
+  # · Considerable positive sentiment
+#2. Volume Fluctuations - There are significant variations in total tweet volume across dates, suggesting:
+   #· Some dates had notable events driving higher Twitter activity
+   #· Other dates had relatively normal/low activity levels
+#3. Sentiment Consistency - The proportion between negative, neutral, and positive sentiments appears relatively stable across most dates, indicating:
+  # · Consistent baseline sentiment patterns
+   #· No extreme sentiment spikes on any particular date
+
+#Potential Implications
+
+#· The consistent presence of all three sentiment types suggests diverse public opinions across the measured period
+#· The lack of extreme sentiment dominance on any date indicates no overwhelmingly positive or negative events during this timeframe
+#· The volume variations likely correspond to specific events, news cycles, or trending topics during those dates
+
+#Limitations
+
+#Without knowing the specific context or topics being analyzed, it's difficult to determine what events might have driven these sentiment patterns. The data would be more meaningful when correlated with actual events occurring on those specific dates.
+
+#The graph effectively shows that while tweet volumes fluctuated, the fundamental distribution of sentiments remained relatively balanced throughout the observed period.
