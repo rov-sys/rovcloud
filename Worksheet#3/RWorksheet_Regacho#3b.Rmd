@@ -10,63 +10,145 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-# STEP 1: Create the dataset manually ------------------------------
+# STEP 1: Create the dataset manually 
+```{r}
+# a. Create a data frame
+respondents <- c(1:20)
+sex <- c(2,2,1,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,1,2)
+fathers_occupation <- c(1,3,3,3,1,2,3,1,1,1,3,2,1,3,3,1,3,1,2,1)
+persons_at_home <- c(5,7,3,8,5,9,6,7,8,4,7,5,4,7,8,8,3,11,7,6)
+siblings_at_school <- c(6,4,4,1,2,1,5,3,1,2,3,2,5,5,2,1,2,5,3,2)
+types_of_houses <- c(1,2,3,1,1,3,3,1,2,3,2,3,2,2,3,3,3,3,3,2)
 
-Respondents <- 1:20
-Sex <- c(2,2,1,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,1,2)
-FathersOccupation <- c(1,3,3,3,1,2,3,1,1,1,3,2,1,3,3,1,3,1,2,1)
-PersonsAtHome <- c(5,7,3,8,5,9,6,7,8,4,7,5,4,7,8,8,3,11,7,6)
-SiblingsAtSchool <- c(6,4,4,1,2,1,5,3,1,2,3,2,5,5,2,1,2,5,3,2)
-TypesOfHouses <- c(1,2,3,1,1,3,3,1,2,3,2,3,2,2,3,3,3,3,3,2)
-
-# STEP 2: Combine into a Data Frame ------------------------------
-
-household <- data.frame(
-  Respondents,
-  Sex,
-  FathersOccupation,
-  PersonsAtHome,
-  SiblingsAtSchool,
-  TypesOfHouses
+data <- data.frame(
+  Respondents = respondents,
+  Sex = sex,
+  Fathers_Occupation = fathers_occupation,
+  Persons_at_Home = persons_at_home,
+  Siblings_at_School = siblings_at_school,
+  Types_of_Houses = types_of_houses
 )
 
-# Display the initial data frame
-household
+# b. Describe the data and get structure/summary
+cat("Structure of the data:\n")
+str(data)
 
-# STEP 3: Replace numeric codes with descriptive labels -----------
+cat("\nSummary of the data:\n")
+summary(data)
 
-household$Sex <- factor(household$Sex, labels = c("Male", "Female"))
-household$FathersOccupation <- factor(household$FathersOccupation, labels = c("Farmer", "Driver", "Others"))
-household$TypesOfHouses <- factor(household$TypesOfHouses, labels = c("Wood", "Semi-concrete", "Concrete"))
+# c. Check if mean number of siblings attending is 5
+siblings_mean <- mean(data$Siblings_at_School)
+cat("\nMean number of siblings attending school:", siblings_mean, "\n")
+cat("Is the mean number of siblings attending 5?", siblings_mean == 5, "\n")
 
-# Display the updated dataframe
-household
+# d. Extract first two rows and all columns
+first_two_rows <- data[1:2, ]
+cat("\nFirst two rows with all columns:\n")
+print(first_two_rows)
 
-# STEP 4: Save the dataset as a CSV file --------------------------
+# e. Extract 3rd and 5th row with 2nd and 4th column
+subset_data <- data[c(3,5), c(2,4)]
+cat("\n3rd and 5th row with 2nd and 4th column:\n")
+print(subset_data)
 
-write.csv(household, "HouseholdData.csv", row.names = FALSE)
+# f. Select variable types of houses and store as types_houses
+types_houses <- data$Types_of_Houses
+cat("\nTypes of houses vector:\n")
+print(types_houses)
 
-# STEP 5: View dataset and summary -------------------------------
+# g. Select all Males respondent with father occupation as farmer
+males_farmer <- subset(data, Sex == 1 & Fathers_Occupation == 1)
+cat("\nMales with father occupation as farmer:\n")
+print(males_farmer)
 
-print(household)
-summary(household)
+# h. Select all females respondent with >=5 siblings attending school
+females_siblings <- subset(data, Sex == 2 & Siblings_at_School >= 5)
+cat("\nFemales with >=5 siblings attending school:\n")
+print(females_siblings)
+```
 
-# STEP 6: Frequency table of Types of Houses ----------------------
+```{r}
+# Create empty data frame
+df = data.frame(Ints=integer(),
+                Doubles=double(), 
+                Characters=character(),
+                Logicals=logical(),
+                Factors=factor(),
+                stringsAsFactors=FALSE)
 
-table(household$TypesOfHouses)
+print("Structure of the empty dataframe:")
+print(str(df))
 
-# ================================================
-# FIGURE 3 - INTERPRETATION
-# ================================================
+# a. 
+# The empty data frame has 0 observations(rows) and 5 variables(columns) with the specified data types. All columns are properly defined wtih their respective data types but contain no actual data.
+```
 
-# Figure 3: Sentiments of Tweets Per Day
-# Interpretation:
-# The bar graph displays the number of tweets classified as Negative, Neutral, and Positive
-# for different dates. Based on the graph, Negative tweets appear most frequently,
-# especially on July 15 and July 21, 2020, suggesting that many users expressed dissatisfaction
-# or frustration on those days.
-# Neutral tweets have moderate counts, showing balanced or factual content,
-# while Positive tweets are fewer but still consistent throughout the dates.
-# This indicates that public sentiment varies daily, with Negative tweets being the most dominant mood.
+```{r}
+# Create the data frame from the table
+household_data <- data.frame(
+  Respondents = 1:10,
+  Sex = c("Male", "Female", "Female", "Male", "Male", "Female", "Female", "Male", "Female", "Male"),
+  Fathers_Occupation = c(1, 2, 3, 3, 1, 2, 2, 3, 1, 3),
+  Persons_at_Home = c(5, 7, 3, 8, 6, 4, 4, 2, 11, 6),
+  Siblings_at_School = c(2, 3, 0, 5, 2, 3, 1, 2, 6, 2),
+  Types_of_Houses = c("Wood", "Congrete", "Congrete", "Wood", "Semi-congrete", 
+                     "Semi-congrete", "Wood", "Semi-congrete", "Semi-congrete", "Congrete")
+)
 
+# a. Create and import CSV file
+write.csv(household_data, "HouseholdData.csv", row.names = FALSE)
+imported_data <- read.csv("HouseholdData.csv")
 
+cat("a. Imported data:\n")
+print(imported_data)
+```
+
+```{r}
+# b. Convert Sex into factor and change to integer
+imported_data$Sex <- factor(imported_data$Sex, levels = c("Male", "Female"))
+imported_data$Sex <- as.integer(imported_data$Sex)
+
+cat("\nb. Sex converted to factor and integer:\n")
+print(imported_data$Sex)
+```
+
+```{r}
+# c. Convert Types of Houses into factor and change to integer
+imported_data$Types_of_Houses <- factor(imported_data$Types_of_Houses, 
+                                       levels = c("Wood", "Congrete", "Semi-congrete"))
+imported_data$Types_of_Houses <- as.integer(imported_data$Types_of_Houses)
+
+cat("\nc. Types of Houses converted to factor and integer:\n")
+print(imported_data$Types_of_Houses)
+```
+
+```{r}
+# d. Convert Father's Occupation to factor
+imported_data$Fathers_Occupation <- factor(imported_data$Fathers_Occupation,
+                                          levels = c(1, 2, 3),
+                                          labels = c("Farmer", "Driver", "Others"))
+
+cat("\nd. Father's Occupation converted to factor:\n")
+print(imported_data$Fathers_Occupation)
+```
+
+```{r}
+# e. Select all females with father occupation as driver
+females_driver <- subset(imported_data, Sex == 2 & Fathers_Occupation == "Driver")
+
+cat("\ne. Females with father occupation as driver:\n")
+print(females_driver)
+```
+
+```{r}
+# f. Select respondents with >=5 siblings attending school
+high_siblings <- subset(imported_data, Siblings_at_School >= 5)
+
+cat("\nf. Respondents with >=5 siblings attending school:\n")
+print(high_siblings)
+```
+
+```{r}
+cat("\nFinal data frame after all conversions:\n")
+print(imported_data)
+```
